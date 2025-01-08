@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "cecf9cb0-89e4-4305-b945-789c11b4631c",
+		"name": "first project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40788689"
+	},
+	"item": [
+		{
+			"name": "add book",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let newColor = pm.variables.replaceIn('{{$randomColor}}')\r",
+							"let newMonth = pm.variables.replaceIn('{{$randomMonth}}')\r",
+							"\r",
+							"let ISBNNumber = pm.variables.replaceIn('{{$randomInt}}')\r",
+							"\r",
+							"let AISLENumber =pm.variables.replaceIn('{{$randomInt}}')\r",
+							"let firstname =pm.variables.replaceIn('{{$randomFirstName}}')\r",
+							"let lastname =pm.variables.replaceIn('{{$randomLastName}}')\r",
+							"\r",
+							"pm.collectionVariables.set(\"NewBookName\",newColor+\" \"+newMonth)\r",
+							"pm.collectionVariables.set(\"AutherName\",firstname+\" \"+lastname)\r",
+							"pm.collectionVariables.set(\"NewISBNNumber\",ISBNNumber)\r",
+							"pm.collectionVariables.set(\"NewAisleNumber\",AISLENumber*15)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let myresponse =pm.response.json()\r",
+							"\r",
+							"let id = myresponse.ID\r",
+							"console.log(id)\r",
+							"pm.collectionVariables.set(\"NewID\",id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"{{NewBookName}}\",\r\n\"isbn\":\"{{NewISBNNumber}}\",\r\n\"aisle\":\"{{NewAisleNumber}}\",\r\n\"author\":\"{{AutherName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/Addbook.php",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"Addbook.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get book",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/GetBook.php?ID={{NewID}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"GetBook.php"
+					],
+					"query": [
+						{
+							"key": "ID",
+							"value": "{{NewID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete book",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"ID\" : \"{{NewID}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/DeleteBook.php",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"DeleteBook.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "NewISBNNumber",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewAisleNumber",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewBookName",
+			"value": ""
+		},
+		{
+			"key": "AutherName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NewID",
+			"value": ""
+		}
+	]
+}
